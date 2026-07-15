@@ -15,7 +15,8 @@ export default function StockBriefingApp() {
     fetchStocks();
     fetchBriefings();
     fetchLatestBriefing();
-  }, [API_URL]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const fetchStocks = async () => {
     try {

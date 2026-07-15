@@ -15,7 +15,7 @@ export default function StockBriefingApp() {
     fetchStocks();
     fetchBriefings();
     fetchLatestBriefing();
-  }, []);
+  }, [API_URL]);
 
   const fetchStocks = async () => {
     try {

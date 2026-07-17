@@ -15,7 +15,7 @@ export default function Dashboard() {
       }))
     );
     setLoading(false);
-  }, []);
+  }, [tickers]);
 
   const getConfidenceTier = (score) => {
     if (score >= 70) return { label: 'High', color: '#4ADE80' };

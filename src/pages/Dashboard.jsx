@@ -9,10 +9,29 @@ export default function Dashboard() {
   const tickers = ['RILY', 'SKHY', 'ASTS', 'LRCX', 'QCOM', 'CWBHF'];
 
   useEffect(() => {
-    fetchStocks();
-  }, []);
-
   const fetchStocks = async () => {
+    try {
+      const responses = await Promise.all(
+        tickers.map((ticker) =>
+          fetch(`${API_URL}/api/briefing/latest`)
+            .then((res) => res.json())
+            .then((data) => {
+              const stock = data.stocks.find((s) => s.ticker === ticker);
+              return stock || { ticker, convictionScore: Math.random() * 100 };
+            })
+            .catch(() => ({ ticker, convictionScore: Math.random() * 100 }))
+        )
+      );
+      setStocks(responses);
+      setLoading(false);
+    } catch (error) {
+      console.error('Error fetching stocks:', error);
+      setLoading(false);
+    }
+  };
+  
+  fetchStocks();
+}, []);
     try {
       const responses = await Promise.all(
         tickers.map((ticker) =>

@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+const tickers = ['RILY', 'SKHY', 'ASTS', 'LRCX', 'QCOM', 'CWBHF'];
+
 
 export default function Dashboard() {
   const [stocks, setStocks] = useState([]);
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
-  const tickers = ['RILY', 'SKHY', 'ASTS', 'LRCX', 'QCOM', 'CWBHF'];
-
   useEffect(() => {
     setStocks(
       tickers.map(ticker => ({
@@ -15,7 +15,7 @@ export default function Dashboard() {
       }))
     );
     setLoading(false);
-  }, [tickers]);
+  }, []);
 
   const getConfidenceTier = (score) => {
     if (score >= 70) return { label: 'High', color: '#4ADE80' };

@@ -1,24 +1,20 @@
-import React from 'react';
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import Sidebar from './layouts/Sidebar';
-import Dashboard from './pages/Dashboard';
-import './styles.css';
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import Sidebar from "./layouts/Sidebar";
+import Dashboard from "./pages/Dashboard";
+import TickerDetail from "./pages/TickerDetail";
 
-function App() {
+export default function App() {
   return (
     <BrowserRouter>
-      <div style={{ display: 'flex', minHeight: '100vh' }}>
+      <div className="app-shell">
         <Sidebar />
-        <div style={{ flex: 1, overflowY: 'auto', backgroundColor: '#0B0E14' }}>
+        <main className="app-main">
           <Routes>
             <Route path="/" element={<Dashboard />} />
-            <Route path="/ticker/:ticker" element={<div style={{ color: '#E8EAED', padding: '20px' }}>Ticker Detail (coming soon)</div>} />
-            <Route path="/glossary" element={<div style={{ color: '#E8EAED', padding: '20px' }}>Glossary (coming soon)</div>} />
+            <Route path="/ticker/:ticker" element={<TickerDetail />} />
           </Routes>
-        </div>
+        </main>
       </div>
     </BrowserRouter>
   );
 }
-
-export default App;

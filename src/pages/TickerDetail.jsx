@@ -89,6 +89,46 @@ export default function TickerDetail() {
         </div>
       </header>
 
+      {data.quote && (
+        <section className="market-data">
+          <div className="market-price">
+            <span className="price-value">
+              ${Number(data.quote.price).toFixed(2)}
+            </span>
+            <span className={`price-change ${data.quote.change >= 0 ? 'up' : 'down'}`}>
+              {data.quote.change >= 0 ? '+' : ''}
+              {Number(data.quote.change).toFixed(2)} (
+              {Number(data.quote.changePercent).toFixed(2)}%)
+            </span>
+          </div>
+
+          <dl className="market-stats">
+            <div>
+              <dt>Market Cap</dt>
+              <dd>
+                {data.profile?.marketCap > 0
+                  ? `$${(data.profile.marketCap / 1000).toFixed(1)}B`
+                  : '—'}
+              </dd>
+            </div>
+            <div>
+              <dt>Industry</dt>
+              <dd>{data.profile?.industry || '—'}</dd>
+            </div>
+            <div>
+              <dt>Day Range</dt>
+              <dd>
+                ${Number(data.quote.low).toFixed(2)} – $
+                {Number(data.quote.high).toFixed(2)}
+              </dd>
+            </div>
+            <div>
+              <dt>P/E</dt>
+              <dd>{data.profile?.pe && data.profile.pe !== 'N/A' ? data.profile.pe : '—'}</dd>
+            </div>
+          </dl>
+        </section>
+      )}
       <section className="plain-english">
         <h2>What this means</h2>
         <p>{data.plainEnglish}</p>

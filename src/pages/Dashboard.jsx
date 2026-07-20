@@ -7,15 +7,28 @@ export default function Dashboard() {
   const [stocks, setStocks] = useState([]);
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
-  useEffect(() => {
-    setStocks(
-      tickers.map(ticker => ({
-        ticker,
-        convictionScore: Math.random() * 100
-      }))
-    );
+useEffect(() => {
+  const fetchScores = async () => {
+    try {
+      const response = await fetch('http://localhost:5000/api/briefing/latest');
+      const data = await response.json();
+      setStocks(data.stocks || []);
+    } catch (error) {
+      console.error('Error fetching:', error);
+      // Fallback to mock data if backend is down
+      setStocks(
+        tickers.map(ticker => ({
+          ticker,
+          convictionScore: Math.random() * 100
+        }))
+      );
+    }
     setLoading(false);
-  }, []);
+  };
+  
+  fetchScores();
+}, []);
+   
 
   const getConfidenceTier = (score) => {
     if (score >= 70) return { label: 'High', color: '#4ADE80' };

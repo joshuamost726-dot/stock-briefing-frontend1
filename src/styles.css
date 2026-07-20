@@ -52,6 +52,7 @@ body {
 
 .ticker-score { color: #D4A574; font-size: 34px; }
 .ticker-score-max { color: #7C8494; font-size: 14px; }
+.signal-count { color: #7C8494; font-size: 12px; margin-top: 4px; }
 
 .gauge {
   height: 5px;

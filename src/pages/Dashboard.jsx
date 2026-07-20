@@ -1,98 +1,80 @@
-import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
-const tickers = ['RILY', 'SKHY', 'ASTS', 'LRCX', 'QCOM', 'CWBHF'];
+import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
+import { getJSON } from "../api";
 
+const TICKERS = ["RILY", "SKHY", "ASTS", "LRCX", "QCOM", "CWBHF"];
+
+function tierOf(score) {
+  if (score >= 70) return { label: "High", action: "BUY", cls: "high" };
+  if (score >= 50) return { label: "Moderate", action: "HOLD", cls: "moderate" };
+  return { label: "Low", action: "SELL", cls: "low" };
+}
 
 export default function Dashboard() {
-  const [stocks, setStocks] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const navigate = useNavigate();
-useEffect(() => {
-  const fetchScores = async () => {
-    try {
-      const response = await fetch('http://localhost:5000/api/briefing/latest');
-      const data = await response.json();
-      setStocks(data.stocks || []);
-    } catch (error) {
-      console.error('Error fetching:', error);
-      // Fallback to mock data if backend is down
-      setStocks(
-        tickers.map(ticker => ({
-          ticker,
-          convictionScore: Math.random() * 100
-        }))
-      );
-    }
-    setLoading(false);
-  };
-  
-  fetchScores();
-}, []);
-   
+  const [stocks, setStocks] = useState(null);
+  const [error, setError] = useState(null);
 
-  const getConfidenceTier = (score) => {
-    if (score >= 70) return { label: 'High', color: '#4ADE80' };
-    if (score >= 50) return { label: 'Moderate', color: '#EAB84D' };
-    return { label: 'Low', color: '#F87171' };
-  };
+  useEffect(() => {
+    getJSON("/api/briefing/latest")
+      .then(data => setStocks(data.stocks || []))
+      .catch(err => setError(err.message));
+  }, []);
 
-  const getActionCall = (score) => {
-    if (score >= 70) return '→ BUY';
-    if (score >= 50) return '→ HOLD';
-    return '→ SELL';
-  };
+  if (error) {
+    return (
+      <div className="dashboard">
+        <h1>Dashboard</h1>
+        <p style={{ color: "#F87171" }}>Couldn't reach the backend. {error}</p>
+      </div>
+    );
+  }
 
-  if (loading) return <div style={{ padding: '20px', color: '#E8EAED' }}>Loading...</div>;
+  if (!stocks) {
+    return (
+      <div className="dashboard">
+        <h1>Dashboard</h1>
+        <p style={{ color: "#7C8494" }}>Loading…</p>
+      </div>
+    );
+  }
 
   return (
-    <div style={{ padding: '30px' }}>
-      <h1 style={{ color: '#E8EAED', marginBottom: '30px', fontSize: '24px' }}>Dashboard</h1>
-
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '20px' }}>
-        {stocks.map((stock) => {
-          const tier = getConfidenceTier(stock.convictionScore);
-          const action = getActionCall(stock.convictionScore);
-
+    <div className="dashboard">
+      <h1>Dashboard</h1>
+      <div className="ticker-grid">
+        {stocks.map(stock => {
+          const tier = tierOf(stock.convictionScore);
           return (
-            <div
+            <Link
               key={stock.ticker}
-              onClick={() => navigate(`/ticker/${stock.ticker}`)}
-              style={{
-                backgroundColor: '#131720',
-                border: '1px solid #232A38',
-                borderRadius: '8px',
-                padding: '20px',
-                cursor: 'pointer',
-                transition: 'background-color 0.2s',
-              }}
-              onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = '#1A2030')}
-              onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = '#131720')}
+              to={`/ticker/${stock.ticker}`}
+              className="ticker-card-link"
             >
-              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '15px' }}>
-                <h2 style={{ fontFamily: 'IBM Plex Mono', color: '#D4A574', fontSize: '18px' }}>{stock.ticker}</h2>
-                <span style={{ color: tier.color, fontSize: '14px', fontWeight: 'bold' }}>{action}</span>
-              </div>
+              <div className="ticker-card">
+                <div className="ticker-top">
+                  <span className="ticker-symbol">{stock.ticker}</span>
+                  <span className={`tier-badge tier-${tier.cls}`}>
+                    {tier.label}
+                  </span>
+                </div>
 
-              <div style={{ marginBottom: '15px' }}>
-                <div style={{ backgroundColor: '#232A38', height: '8px', borderRadius: '4px', overflow: 'hidden' }}>
+                <div className="ticker-score">
+                  {stock.convictionScore}
+                  <span className="ticker-score-max">/100</span>
+                </div>
+
+                <div className="gauge">
                   <div
-                    style={{
-                      height: '100%',
-                      backgroundColor: tier.color,
-                      width: `${stock.convictionScore}%`,
-                      transition: 'width 0.3s',
-                    }}
+                    className={`gauge-fill gauge-${tier.cls}`}
+                    style={{ width: `${stock.convictionScore}%` }}
                   />
                 </div>
-              </div>
 
-              <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-                <span style={{ fontFamily: 'IBM Plex Mono', color: '#E8EAED', fontSize: '14px' }}>
-                  {Math.round(stock.convictionScore)}/100
-                </span>
-                <span style={{ color: tier.color, fontSize: '12px', fontWeight: 'bold' }}>{tier.label}</span>
+                <div className={`ticker-action action-${tier.cls}`}>
+                  → {tier.action}
+                </div>
               </div>
-            </div>
+            </Link>
           );
         })}
       </div>

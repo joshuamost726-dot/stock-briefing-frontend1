@@ -126,6 +126,14 @@ export default function TickerDetail() {
               <dt>P/E</dt>
               <dd>{data.profile?.pe && data.profile.pe !== 'N/A' ? data.profile.pe : '—'}</dd>
             </div>
+            <div>
+              <dt>Price Target</dt>
+              <dd>
+                {data.priceTarget?.available
+                  ? `$${data.priceTarget.mean.toFixed(2)} (${data.priceTarget.upsidePct >= 0 ? '+' : ''}${data.priceTarget.upsidePct.toFixed(1)}%) · Range $${data.priceTarget.low.toFixed(0)}–$${data.priceTarget.high.toFixed(0)} · ${data.priceTarget.numAnalysts} analysts`
+                  : '—'}
+              </dd>
+            </div>
           </dl>
         </section>
       )}

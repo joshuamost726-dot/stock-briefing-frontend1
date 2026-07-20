@@ -14,3 +14,69 @@ body {
   background: #0B0E14;
   min-height: 100vh;
 }
+.app-shell {
+  display: flex;
+  min-height: 100vh;
+}
+
+.app-main {
+  flex: 1;
+  padding: 32px 40px;
+  overflow-y: auto;
+}
+
+.ticker-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 16px;
+  margin-top: 24px;
+}
+
+.ticker-card-link { text-decoration: none; display: block; }
+
+.ticker-card {
+  background: #131720;
+  border: 1px solid #1E2430;
+  border-radius: 6px;
+  padding: 20px;
+}
+
+.ticker-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.ticker-symbol { color: #E8EAED; font-size: 18px; letter-spacing: 0.05em; }
+
+.ticker-score { color: #D4A574; font-size: 34px; }
+.ticker-score-max { color: #7C8494; font-size: 14px; }
+
+.gauge {
+  height: 5px;
+  background: #1E2430;
+  border-radius: 3px;
+  margin: 12px 0;
+  overflow: hidden;
+}
+.gauge-fill { height: 100%; }
+.gauge-high { background: #4ADE80; }
+.gauge-moderate { background: #EAB84D; }
+.gauge-low { background: #F87171; }
+
+.ticker-action { font-size: 14px; letter-spacing: 0.05em; }
+.action-high { color: #4ADE80; }
+.action-moderate { color: #EAB84D; }
+.action-low { color: #F87171; }
+
+.tier-badge {
+  padding: 3px 9px;
+  border-radius: 3px;
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+.tier-high { background: rgba(74,222,128,0.12); color: #4ADE80; }
+.tier-moderate { background: rgba(234,184,77,0.12); color: #EAB84D; }
+.tier-low { background: rgba(248,113,113,0.12); color: #F87171; }

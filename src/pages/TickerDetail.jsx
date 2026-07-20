@@ -80,12 +80,17 @@ export default function TickerDetail() {
           <h1>{data.ticker}</h1>
           <p className="company-name">{data.companyName}</p>
         </div>
-        <div className="score-block">
+       <div className="score-block">
           <span className="score-number">{data.convictionScore}</span>
           <span className="score-max">/100</span>
           <span className={`tier-badge tier-${data.tier.toLowerCase()}`}>
             {data.tier}
           </span>
+          {data.signalQuality && (
+            <p className="signal-quality-note">
+              {data.signalQuality.badge}
+            </p>
+          )}
         </div>
       </header>
 
@@ -145,6 +150,11 @@ export default function TickerDetail() {
       <section className="bottom-line">
         <h2>Bottom line: {data.bottomLine.verdict}</h2>
         <p>{data.bottomLine.reasoning}</p>
+        {data.signalQuality && (
+          <p className="signal-quality-explanation">
+            <strong>{data.signalQuality.badge}:</strong> {data.signalQuality.explanation}
+          </p>
+        )}
       </section>
 
       <section className="signals-grid">

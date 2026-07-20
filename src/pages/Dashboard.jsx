@@ -2,8 +2,6 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { getJSON } from "../api";
 
-const TICKERS = ["RILY", "SKHY", "ASTS", "LRCX", "QCOM", "CWBHF"];
-
 function tierOf(score) {
   if (score >= 70) return { label: "High", action: "BUY", cls: "high" };
   if (score >= 50) return { label: "Moderate", action: "HOLD", cls: "moderate" };

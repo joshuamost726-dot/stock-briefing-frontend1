@@ -81,6 +81,18 @@ body {
 .tier-high { background: rgba(74,222,128,0.12); color: #4ADE80; }
 .tier-moderate { background: rgba(234,184,77,0.12); color: #EAB84D; }
 .tier-low { background: rgba(248,113,113,0.12); color: #F87171; }
+
+.signal-quality-note {
+  font-size: 0.75rem;
+  color: #7C8494;
+  margin-top: 4px;
+}
+
+.signal-quality-explanation {
+  margin-top: 8px;
+  color: #7C8494;
+}
+
 .detail-page { max-width: 1100px; }
 
 .back-link {

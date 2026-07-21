@@ -88,6 +88,13 @@ body {
   margin-top: 4px;
 }
 
+.signal-freshness {
+  font-size: 0.7rem;
+  color: #7C8494;
+  margin-top: 6px;
+  margin-bottom: 8px;
+}
+
 .signal-quality-explanation {
   margin-top: 8px;
   color: #7C8494;

@@ -150,11 +150,7 @@ export default function TickerDetail() {
       <section className="bottom-line">
         <h2>Bottom line: {data.bottomLine.verdict}</h2>
         <p>{data.bottomLine.reasoning}</p>
-        {data.signalQuality && (
-          <p className="signal-quality-explanation">
-            <strong>{data.signalQuality.badge}:</strong> {data.signalQuality.explanation}
-          </p>
-        )}
+        
       </section>
 
       <section className="signals-grid">

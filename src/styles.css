@@ -230,3 +230,25 @@ body {
   margin-bottom: 3px;
 }
 .market-stats dd { margin: 0; color: #C4C9D4; font-size: 14px; }
+
+.glossary-title { font-size: 32px; letter-spacing: -0.02em; margin: 0 0 8px; }
+.glossary-intro { color: #7C8494; font-size: 14px; margin: 0 0 8px; }
+
+.glossary-grid {
+  grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
+}
+
+.glossary-card { padding: 20px; }
+
+.glossary-term {
+  font-size: 16px;
+  color: #D4A574;
+  margin: 0 0 10px;
+  letter-spacing: -0.01em;
+}
+
+.glossary-card .signal-detail {
+  font-size: 14px;
+  line-height: 1.6;
+  color: #C4C9D4;
+}

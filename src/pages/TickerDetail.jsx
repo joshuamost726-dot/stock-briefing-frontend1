@@ -22,6 +22,16 @@ function SignalCard({ signal }) {
       <p className="signal-headline">{signal.headline}</p>
       {signal.detail && <p className="signal-detail">{signal.detail}</p>}
 
+      {signal.freshness && (
+        <p className="signal-freshness">
+          {signal.freshness.lastChecked
+            ? `Last updated: ${new Date(signal.freshness.lastChecked).toLocaleDateString()}`
+            : "Live / no stored timestamp"}
+          {" · "}
+          {signal.freshness.schedule}
+        </p>
+      )}
+
       <button className="validation-toggle" onClick={() => setOpen(!open)}>
         {open ? "Hide validation" : "Show validation"}
       </button>

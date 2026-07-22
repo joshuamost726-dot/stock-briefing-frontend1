@@ -14,6 +14,7 @@ function SignalCard({ signal }) {
 
   return (
     <div className="signal-card">
+      {signal.source && <span className="signal-source">{signal.source}</span>}
       <div className="signal-head">
         <span className="signal-label">{signal.label}</span>
         <span className={`signal-dot dot-${signal.status}`} />

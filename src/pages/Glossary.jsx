@@ -20,6 +20,11 @@ const TERMS = [
       "\"Insiders\" are a company's executives and board members. When they buy shares of their own company with their own money, it's often read as a sign of confidence — they have the best information about the company's prospects. This tool looks at executive compensation and buying patterns disclosed in SEC filings (specifically DEF 14A proxy statements) to build this signal."
   },
   {
+    term: "Congressional Trading",
+    definition:
+      "Members of the U.S. Congress must publicly disclose their stock trades within 45 days under the STOCK Act. This tool tracks disclosed purchases as a possible \"smart money\" signal — the idea being that members of Congress sometimes have visibility into industries, regulations, or contracts before the public does. Like insider buying, only purchases are scored; sales are shown as context but not scored, since members sell for many routine reasons unrelated to conviction."
+  },
+  {
     term: "Short Interest",
     definition:
       "The percentage of a stock's available shares that have been sold short — meaning investors are betting the price will fall. High short interest can mean the market is skeptical of the stock, but it can also set up a \"short squeeze\" if the price rises and short-sellers are forced to buy back shares to cover their positions, pushing the price up further."

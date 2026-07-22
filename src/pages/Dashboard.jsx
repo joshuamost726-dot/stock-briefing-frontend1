@@ -61,7 +61,7 @@ export default function Dashboard() {
                   <span className="ticker-score-max">/100</span>
                 </div>
                 <div className="signal-count">
-  {stock.activeSignals}/6 signals active
+  {stock.activeSignals}/{stock.totalSignals} signals active
 </div>
 
                 <div className="gauge">

@@ -9,6 +9,30 @@ const VALIDATION_FIELDS = [
   ["corroboration", "Corroboration"]
 ];
 
+function InactiveSignalsRow({ signals }) {
+  const [open, setOpen] = useState(false);
+
+  if (signals.length === 0) return null;
+
+  return (
+    <div className="inactive-signals-row">
+      <button className="inactive-signals-toggle" onClick={() => setOpen(!open)}>
+        {open ? "Hide" : "Show"} {signals.length} signal{signals.length === 1 ? "" : "s"} with no data yet ▸
+      </button>
+      {open && (
+        <div className="inactive-signals-list">
+          {signals.map(s => (
+            <div key={s.id} className="inactive-signal-line">
+              <span className="inactive-signal-label">{s.label}</span>
+              <span className="inactive-signal-headline">{s.headline}</span>
+            </div>
+          ))}
+        </div>
+      )}
+    </div>
+  );
+}
+
 function SignalCard({ signal }) {
   const [open, setOpen] = useState(false);
 
@@ -157,6 +181,37 @@ export default function TickerDetail() {
           </dl>
         </section>
       )}
+      {data.upcoming && (
+        <section className="upcoming">
+          <h2>Upcoming</h2>
+          <ul className="upcoming-list">
+            {data.upcoming.earnings && (
+              <li>
+                <span className="upcoming-label">Earnings</span>
+                <span>
+                  {new Date(data.upcoming.earnings.date).toLocaleDateString()}
+                  {data.upcoming.earnings.epsEstimate != null &&
+                    ` (EPS est. $${Number(data.upcoming.earnings.epsEstimate).toFixed(2)})`}
+                </span>
+              </li>
+            )}
+            <li>
+              <span className="upcoming-label">Next 13F sweep</span>
+              <span>{new Date(data.upcoming.next13fSweep.date).toLocaleDateString()}</span>
+            </li>
+            {data.upcoming.nextShortInterestUpdate && (
+              <li>
+                <span className="upcoming-label">Next short interest update</span>
+                <span>
+                  ~{new Date(data.upcoming.nextShortInterestUpdate.date).toLocaleDateString()}
+                  <span className="upcoming-approx"> (approximate)</span>
+                </span>
+              </li>
+            )}
+          </ul>
+        </section>
+      )}
+
       <section className="plain-english">
         <h2>What this means</h2>
         <p>{data.plainEnglish}</p>
@@ -165,17 +220,46 @@ export default function TickerDetail() {
       <section className="bottom-line">
         <h2>Bottom line: {data.bottomLine.verdict}</h2>
         <p>{data.bottomLine.reasoning}</p>
-        
       </section>
 
-      {groupByCategory(data.signals).map(([category, signals]) => (
-        <section key={category} className="signal-category">
-          <h2 className="signal-category-title">{category}</h2>
-          <div className="signals-grid">
-            {signals.map(s => <SignalCard key={s.id} signal={s} />)}
+      {data.aiTake && (
+        <section className="ai-take">
+          <h2>Ask Claude</h2>
+          <p className="ai-take-disclaimer">AI commentary — not a verified signal, may disagree with the tool's own scoring above.</p>
+          <p>{data.aiTake.text}</p>
+        </section>
+      )}
+
+      {groupByCategory(data.signals).map(([category, signals]) => {
+        const active = signals.filter(s => s.hasData);
+        const inactive = signals.filter(s => !s.hasData);
+        return (
+          <section key={category} className="signal-category">
+            <h2 className="signal-category-title">{category}</h2>
+            {active.length > 0 && (
+              <div className="signals-grid">
+                {active.map(s => <SignalCard key={s.id} signal={s} />)}
+              </div>
+            )}
+            <InactiveSignalsRow signals={inactive} />
+          </section>
+        );
+      })}
+
+      {data.news && data.news.length > 0 && (
+        <section className="news-section">
+          <h2>News</h2>
+          <div className="news-list">
+            {data.news.map((n, i) => (
+              <a key={i} href={n.url} target="_blank" rel="noopener noreferrer" className="news-item">
+                <p className="news-headline">{n.title}</p>
+                {n.whatItMeans && <p className="news-meaning">{n.whatItMeans}</p>}
+                <p className="news-meta">{n.source}{n.publishedAt ? ` · ${new Date(n.publishedAt).toLocaleDateString()}` : ""}</p>
+              </a>
+            ))}
           </div>
         </section>
-      ))}
+      )}
     </div>
   );
 }

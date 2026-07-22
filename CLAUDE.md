@@ -31,6 +31,8 @@ data), and other signals, then emails the scores 3x/day and shows them on a dash
 - `TickerDetail.jsx` (found today) — fully built detail page: header, market data,
   plain-English summary, bottom-line verdict, signal cards with validation breakdown.
   Confirmed routed in `App.jsx` at `/ticker/:ticker`.
+- `Glossary.jsx` — 8 term/definition cards matching the signal-card dark theme, routed
+  at `/glossary`. Committed and pushed (`7814d26`).
 
 ## Known gotchas
 - Backend and frontend are two separate GitHub repos. Local folders were reorganized
@@ -40,5 +42,5 @@ data), and other signals, then emails the scores 3x/day and shows them on a dash
   always validate JSON before committing.
 
 ## Next steps
-- Build the Glossary page.
 - Backend merge conflict resolved and pushed today (commit `750f4ec`).
+- See `TASKS.md` at the project root for the full, current task list.

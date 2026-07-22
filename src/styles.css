@@ -145,11 +145,23 @@ body {
 .bottom-line h2 { color: #4ADE80; }
 .plain-english p, .bottom-line p { margin: 0; line-height: 1.6; }
 
+.signal-category {
+  margin-top: 28px;
+}
+.signal-category-title {
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: #7C8494;
+  margin: 0 0 12px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid #1E2430;
+}
+
 .signals-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
   gap: 16px;
-  margin-top: 28px;
 }
 
 .signal-card {

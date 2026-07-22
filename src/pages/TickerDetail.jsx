@@ -168,9 +168,33 @@ export default function TickerDetail() {
         
       </section>
 
-      <section className="signals-grid">
-        {data.signals.map(s => <SignalCard key={s.id} signal={s} />)}
-      </section>
+      {groupByCategory(data.signals).map(([category, signals]) => (
+        <section key={category} className="signal-category">
+          <h2 className="signal-category-title">{category}</h2>
+          <div className="signals-grid">
+            {signals.map(s => <SignalCard key={s.id} signal={s} />)}
+          </div>
+        </section>
+      ))}
     </div>
   );
+}
+
+// Groups signals by category while preserving each signal's original
+// SIGNAL_ORDER position (and first-seen category order) from the backend —
+// no re-sorting, just partitioning a flat list into labeled sections.
+function groupByCategory(signals) {
+  const order = [];
+  const groups = new Map();
+
+  for (const s of signals) {
+    const category = s.category || 'Other';
+    if (!groups.has(category)) {
+      groups.set(category, []);
+      order.push(category);
+    }
+    groups.get(category).push(s);
+  }
+
+  return order.map(category => [category, groups.get(category)]);
 }

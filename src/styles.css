@@ -463,6 +463,18 @@ body {
 .signal-dot.dot-neutral { background: var(--text-tertiary); }
 .signal-dot.dot-negative { background: var(--negative); }
 
+.signal-position-badge {
+  display: inline-block;
+  font-size: 11px;
+  font-weight: 700;
+  font-family: var(--font-mono);
+  color: var(--accent);
+  background: var(--accent-soft);
+  padding: 4px 10px;
+  border-radius: 100px;
+  margin-bottom: 12px;
+}
+
 .signal-simple-explanation { font-size: 15px; margin: 0; line-height: 1.55; color: var(--text-primary); }
 
 .signal-details { margin-top: 16px; border-top: 1px solid var(--border); padding-top: 14px; }

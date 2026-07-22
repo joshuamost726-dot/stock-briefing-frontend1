@@ -144,6 +144,17 @@ function SignalCard({ signal }) {
         <span className={`signal-dot dot-${signal.status}`} />
       </div>
 
+      {signal.positionContext && (
+        <div className="signal-position-badge">
+          {signal.positionContext.approximate ? "~" : ""}${signal.positionContext.signalPrice.toFixed(2)}
+          {" "}vs your ${signal.positionContext.userCostBasis.toFixed(2)}
+          {" — "}
+          {signal.positionContext.direction === "similar"
+            ? "similar price"
+            : `${Math.abs(signal.positionContext.pctDifference).toFixed(0)}% ${signal.positionContext.direction} your cost basis`}
+        </div>
+      )}
+
       <p className="signal-simple-explanation">{signal.simpleExplanation}</p>
 
       <button className="validation-toggle" onClick={() => setOpen(!open)}>

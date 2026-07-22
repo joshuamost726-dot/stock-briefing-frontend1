@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
-import { getJSON } from "../api";
+import { getJSON, sendJSON } from "../api";
 
 const VALIDATION_FIELDS = [
   ["timing", "Timing"],
@@ -8,6 +8,106 @@ const VALIDATION_FIELDS = [
   ["trackRecord", "Track Record"],
   ["corroboration", "Corroboration"]
 ];
+
+function PositionSection({ ticker, position, positionAdvice, onChange }) {
+  const [editing, setEditing] = useState(false);
+  const [costPerShare, setCostPerShare] = useState(position?.costPerShare ?? "");
+  const [shares, setShares] = useState(position?.shares ?? "");
+  const [saving, setSaving] = useState(false);
+  const [formError, setFormError] = useState(null);
+
+  async function handleSave(e) {
+    e.preventDefault();
+    setSaving(true);
+    setFormError(null);
+    try {
+      await sendJSON(`/api/stocks/${ticker}/position`, "PUT", {
+        costPerShare: Number(costPerShare),
+        shares: Number(shares),
+      });
+      setEditing(false);
+      onChange();
+    } catch (err) {
+      setFormError(err.message);
+    } finally {
+      setSaving(false);
+    }
+  }
+
+  async function handleClear() {
+    setSaving(true);
+    try {
+      await sendJSON(`/api/stocks/${ticker}/position`, "DELETE");
+      onChange();
+    } catch (err) {
+      setFormError(err.message);
+    } finally {
+      setSaving(false);
+    }
+  }
+
+  if (!position && !editing) {
+    return (
+      <section className="position-section">
+        <h2>Your Position</h2>
+        <p className="position-empty">No position tracked for {ticker} yet — signal calls aren't adjusted for chasing until you add one.</p>
+        <button className="position-edit-toggle" onClick={() => setEditing(true)}>+ Add position</button>
+      </section>
+    );
+  }
+
+  if (editing) {
+    return (
+      <section className="position-section">
+        <h2>Your Position</h2>
+        <form className="position-form" onSubmit={handleSave}>
+          <label>
+            Cost per share
+            <input type="number" step="0.01" min="0.01" value={costPerShare}
+              onChange={e => setCostPerShare(e.target.value)} required />
+          </label>
+          <label>
+            Shares
+            <input type="number" step="0.0001" min="0.0001" value={shares}
+              onChange={e => setShares(e.target.value)} required />
+          </label>
+          <div className="position-form-actions">
+            <button type="submit" disabled={saving}>{saving ? "Saving…" : "Save"}</button>
+            <button type="button" onClick={() => setEditing(false)} disabled={saving}>Cancel</button>
+          </div>
+          {formError && <p className="position-error">{formError}</p>}
+        </form>
+      </section>
+    );
+  }
+
+  const gl = positionAdvice?.gainLoss;
+
+  return (
+    <section className="position-section">
+      <h2>Your Position</h2>
+      <div className="position-summary">
+        <span>{position.shares.toLocaleString()} shares @ ${position.costPerShare.toFixed(2)}</span>
+        {gl && (
+          <span className={gl.percent >= 0 ? "position-gain-up" : "position-gain-down"}>
+            {gl.percent >= 0 ? "+" : ""}{gl.percent.toFixed(1)}% ({gl.dollarTotal >= 0 ? "+" : ""}${gl.dollarTotal.toFixed(2)})
+          </span>
+        )}
+      </div>
+      {positionAdvice?.explanation && (
+        <p className={`position-advice ${positionAdvice.adjusted ? "position-advice-adjusted" : ""}`}>
+          {positionAdvice.adjusted && <strong>Adjusted from raw {positionAdvice.rawAction} call — </strong>}
+          {positionAdvice.explanation}
+        </p>
+      )}
+      <div className="position-actions">
+        <button className="position-edit-toggle" onClick={() => setEditing(true)}>Edit</button>
+        <button className="position-edit-toggle" onClick={handleClear} disabled={saving}>Clear position</button>
+      </div>
+      {formError && <p className="position-error">{formError}</p>}
+    </section>
+  );
+}
 
 function InactiveSignalsRow({ signals }) {
   const [open, setOpen] = useState(false);
@@ -84,12 +184,17 @@ export default function TickerDetail() {
   const [data, setData] = useState(null);
   const [error, setError] = useState(null);
 
+  function refetch() {
+    return getJSON(`/api/ticker/${ticker}`)
+      .then(setData)
+      .catch(err => setError(err.message));
+  }
+
   useEffect(() => {
     setData(null);
     setError(null);
-    getJSON(`/api/ticker/${ticker}`)
-      .then(setData)
-      .catch(err => setError(err.message));
+    refetch();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [ticker]);
 
   if (error) {
@@ -125,6 +230,11 @@ export default function TickerDetail() {
           <span className={`tier-badge tier-${data.tier.toLowerCase()}`}>
             {data.tier}
           </span>
+          {data.action && (
+            <span className={`action-badge action-badge-${data.action.toLowerCase()}`}>
+              {data.action}
+            </span>
+          )}
           {data.signalQuality && (
             <p className="signal-quality-note">
               {data.signalQuality.badge}
@@ -181,6 +291,14 @@ export default function TickerDetail() {
           </dl>
         </section>
       )}
+
+      <PositionSection
+        ticker={data.ticker}
+        position={data.position}
+        positionAdvice={data.positionAdvice}
+        onChange={refetch}
+      />
+
       {data.upcoming && (
         <section className="upcoming">
           <h2>Upcoming</h2>

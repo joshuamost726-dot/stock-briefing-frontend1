@@ -82,6 +82,96 @@ body {
 .tier-moderate { background: rgba(234,184,77,0.12); color: #EAB84D; }
 .tier-low { background: rgba(248,113,113,0.12); color: #F87171; }
 
+.action-badge {
+  padding: 3px 9px;
+  border-radius: 3px;
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin-left: 6px;
+}
+.action-badge-buy { background: rgba(74,222,128,0.12); color: #4ADE80; }
+.action-badge-hold { background: rgba(234,184,77,0.12); color: #EAB84D; }
+.action-badge-sell { background: rgba(248,113,113,0.12); color: #F87171; }
+
+.position-section {
+  border-left: 2px solid #7C8494;
+  padding: 16px 20px;
+  margin-bottom: 16px;
+  background: #131720;
+}
+.position-section h2 {
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: #7C8494;
+  margin: 0 0 8px;
+}
+.position-empty { color: #7C8494; font-size: 14px; margin: 0 0 10px; }
+.position-summary {
+  display: flex;
+  align-items: baseline;
+  gap: 14px;
+  font-size: 15px;
+  color: #E8EAED;
+  margin-bottom: 8px;
+}
+.position-gain-up { color: #4ADE80; }
+.position-gain-down { color: #F87171; }
+.position-advice { font-size: 13px; color: #C4C9D4; line-height: 1.5; margin: 8px 0; }
+.position-advice-adjusted { color: #EAB84D; }
+.position-advice-adjusted strong { color: #EAB84D; }
+
+.position-actions { display: flex; gap: 10px; }
+.position-edit-toggle {
+  background: none;
+  border: 1px solid #232A38;
+  color: #D4A574;
+  font-size: 12px;
+  padding: 6px 12px;
+  border-radius: 3px;
+  cursor: pointer;
+  margin-top: 4px;
+}
+.position-edit-toggle:hover { border-color: #D4A574; }
+
+.position-form { display: flex; flex-direction: column; gap: 12px; max-width: 320px; }
+.position-form label {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  font-size: 12px;
+  color: #7C8494;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+.position-form input {
+  background: #0B0E14;
+  border: 1px solid #232A38;
+  border-radius: 3px;
+  padding: 8px 10px;
+  color: #E8EAED;
+  font-size: 14px;
+  text-transform: none;
+  letter-spacing: normal;
+}
+.position-form-actions { display: flex; gap: 10px; }
+.position-form-actions button {
+  background: #D4A574;
+  border: none;
+  color: #0B0E14;
+  font-size: 13px;
+  padding: 8px 16px;
+  border-radius: 3px;
+  cursor: pointer;
+}
+.position-form-actions button[type="button"] {
+  background: none;
+  border: 1px solid #232A38;
+  color: #7C8494;
+}
+.position-error { color: #F87171; font-size: 12px; margin: 8px 0 0; }
+
 .signal-quality-note {
   font-size: 0.75rem;
   color: #7C8494;

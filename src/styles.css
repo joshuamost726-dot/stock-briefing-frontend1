@@ -185,7 +185,10 @@ body {
 .dot-neutral { background: #7C8494; }
 .dot-negative { background: #F87171; }
 
-.signal-headline { font-size: 15px; margin: 0 0 6px; line-height: 1.4; }
+.signal-simple-explanation { font-size: 15px; margin: 0; line-height: 1.5; }
+
+.signal-details { margin-top: 14px; border-top: 1px solid #1E2430; padding-top: 12px; }
+.signal-headline { font-size: 13px; color: #C4C9D4; margin: 0 0 6px; line-height: 1.4; }
 .signal-detail { color: #7C8494; font-size: 13px; margin: 0; line-height: 1.5; }
 
 .validation-toggle {
@@ -198,7 +201,7 @@ body {
 }
 .validation-toggle:hover { text-decoration: underline; }
 
-.validation-list { margin: 14px 0 0; border-top: 1px solid #1E2430; padding-top: 12px; }
+.validation-list { margin: 14px 0 0; border-top: 1px solid #232A38; padding-top: 12px; }
 .validation-row { margin-bottom: 12px; }
 .validation-row:last-child { margin-bottom: 0; }
 .validation-row dt {

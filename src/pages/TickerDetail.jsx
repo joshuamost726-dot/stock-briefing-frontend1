@@ -20,32 +20,36 @@ function SignalCard({ signal }) {
         <span className={`signal-dot dot-${signal.status}`} />
       </div>
 
-      <p className="signal-headline">{signal.headline}</p>
-      {signal.detail && <p className="signal-detail">{signal.detail}</p>}
-
-      {signal.freshness && (
-        <p className="signal-freshness">
-          {signal.freshness.lastChecked
-            ? `Last updated: ${new Date(signal.freshness.lastChecked).toLocaleDateString()}`
-            : "Live / no stored timestamp"}
-          {" · "}
-          {signal.freshness.schedule}
-        </p>
-      )}
+      <p className="signal-simple-explanation">{signal.simpleExplanation}</p>
 
       <button className="validation-toggle" onClick={() => setOpen(!open)}>
-        {open ? "Hide validation" : "Show validation"}
+        {open ? "Hide details" : "Show details"}
       </button>
 
       {open && (
-        <dl className="validation-list">
-          {VALIDATION_FIELDS.map(([key, label]) => (
-            <div key={key} className="validation-row">
-              <dt>{label}</dt>
-              <dd>{signal.validation[key]}</dd>
-            </div>
-          ))}
-        </dl>
+        <div className="signal-details">
+          <p className="signal-headline">{signal.headline}</p>
+          {signal.detail && <p className="signal-detail">{signal.detail}</p>}
+
+          {signal.freshness && (
+            <p className="signal-freshness">
+              {signal.freshness.lastChecked
+                ? `Last updated: ${new Date(signal.freshness.lastChecked).toLocaleDateString()}`
+                : "Live / no stored timestamp"}
+              {" · "}
+              {signal.freshness.schedule}
+            </p>
+          )}
+
+          <dl className="validation-list">
+            {VALIDATION_FIELDS.map(([key, label]) => (
+              <div key={key} className="validation-row">
+                <dt>{label}</dt>
+                <dd>{signal.validation[key]}</dd>
+              </div>
+            ))}
+          </dl>
+        </div>
       )}
     </div>
   );

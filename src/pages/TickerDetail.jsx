@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
 import { getJSON, sendJSON } from "../api";
+import PriceChart from "../components/PriceChart";
 
 const VALIDATION_FIELDS = [
   ["timing", "Timing"],
@@ -194,6 +195,7 @@ export default function TickerDetail() {
   const { ticker } = useParams();
   const [data, setData] = useState(null);
   const [error, setError] = useState(null);
+  const [priceHistory, setPriceHistory] = useState(null);
 
   function refetch() {
     return getJSON(`/api/ticker/${ticker}`)
@@ -204,7 +206,11 @@ export default function TickerDetail() {
   useEffect(() => {
     setData(null);
     setError(null);
+    setPriceHistory(null);
     refetch();
+    getJSON(`/api/ticker/${ticker}/history`)
+      .then(setPriceHistory)
+      .catch(() => setPriceHistory(null)); // chart is supplementary — a failure here shouldn't block the rest of the page
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [ticker]);
 
@@ -300,6 +306,26 @@ export default function TickerDetail() {
               </dd>
             </div>
           </dl>
+        </section>
+      )}
+
+      {priceHistory && priceHistory.history && priceHistory.history.length > 1 && (
+        <section className="price-chart-section">
+          <h2>
+            Price — Past Year
+            {priceHistory.currency === "KRW" && (
+              <span className="price-chart-currency-note"> (KRW, Korea Exchange listing — a different series/currency than the USD quote above)</span>
+            )}
+          </h2>
+          <PriceChart
+            data={priceHistory.history.map(h => ({ date: h.date, value: h.close }))}
+            valuePrefix={priceHistory.currency === "KRW" ? "₩" : "$"}
+            valueFormatter={
+              priceHistory.currency === "KRW"
+                ? (v) => `₩${Math.round(v).toLocaleString()}`
+                : undefined
+            }
+          />
         </section>
       )}
 

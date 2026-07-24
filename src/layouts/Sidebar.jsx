@@ -1,8 +1,16 @@
-import { Link, useLocation } from 'react-router-dom';
+import { useEffect, useState } from "react";
+import { Link, useLocation } from "react-router-dom";
+import { getJSON } from "../api";
 
 export default function Sidebar() {
   const location = useLocation();
-  const tickers = ['RILY', 'SKHY', 'ASTS', 'LRCX', 'QCOM', 'CWBHF'];
+  const [tickers, setTickers] = useState([]);
+
+  useEffect(() => {
+    getJSON("/api/stocks")
+      .then(stocks => setTickers(stocks.map(s => s.ticker)))
+      .catch(() => {}); // sidebar nav is supplementary — a failure here shouldn't block anything
+  }, [location.pathname]); // refetch on navigation so stocks added/removed via Settings show up without a full reload
 
   const isActive = (path) => location.pathname === path;
   const linkClass = (path) => `sidebar-link${isActive(path) ? ' sidebar-link-active' : ''}`;
@@ -35,6 +43,7 @@ export default function Sidebar() {
       <div className="sidebar-section">
         <span className="sidebar-section-label">Reference</span>
         <Link to="/glossary" className={linkClass('/glossary')}>Glossary</Link>
+        <Link to="/settings" className={linkClass('/settings')}>Settings</Link>
       </div>
     </div>
   );

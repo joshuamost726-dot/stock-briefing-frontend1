@@ -1,11 +1,73 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { getJSON } from "../api";
+import PriceChart from "../components/PriceChart";
 
 function tierOf(score) {
   if (score >= 70) return { label: "High", action: "BUY", cls: "high" };
   if (score >= 50) return { label: "Moderate", action: "HOLD", cls: "moderate" };
   return { label: "Low", action: "SELL", cls: "low" };
+}
+
+function PortfolioSummary() {
+  const [portfolio, setPortfolio] = useState(null);
+
+  useEffect(() => {
+    getJSON("/api/portfolio")
+      .then(setPortfolio)
+      .catch(() => setPortfolio(null)); // supplementary — page still works without it
+  }, []);
+
+  if (!portfolio) return null;
+
+  if (portfolio.holdings.length === 0) {
+    return (
+      <section className="portfolio-summary portfolio-summary-empty">
+        <p>No positions tracked yet — add a cost basis on any ticker's page to see your total portfolio value and daily change here.</p>
+      </section>
+    );
+  }
+
+  const dayUp = portfolio.totalDayChangeDollar >= 0;
+  const gainUp = portfolio.totalGainLossDollar >= 0;
+
+  return (
+    <section className="portfolio-summary">
+      <div className="portfolio-summary-stats">
+        <div className="portfolio-stat">
+          <span className="portfolio-stat-label">Total Value</span>
+          <span className="portfolio-stat-value">
+            ${portfolio.totalValue.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+          </span>
+        </div>
+        <div className="portfolio-stat">
+          <span className="portfolio-stat-label">Today</span>
+          <span className={`portfolio-stat-value ${dayUp ? "position-gain-up" : "position-gain-down"}`}>
+            {dayUp ? "+" : ""}${portfolio.totalDayChangeDollar.toFixed(2)}
+            {portfolio.totalDayChangePercent != null && (
+              <span className="portfolio-stat-pct"> ({dayUp ? "+" : ""}{portfolio.totalDayChangePercent.toFixed(2)}%)</span>
+            )}
+          </span>
+        </div>
+        <div className="portfolio-stat">
+          <span className="portfolio-stat-label">Total Gain/Loss</span>
+          <span className={`portfolio-stat-value ${gainUp ? "position-gain-up" : "position-gain-down"}`}>
+            {gainUp ? "+" : ""}${portfolio.totalGainLossDollar.toFixed(2)}
+            {portfolio.totalGainLossPercent != null && (
+              <span className="portfolio-stat-pct"> ({gainUp ? "+" : ""}{portfolio.totalGainLossPercent.toFixed(2)}%)</span>
+            )}
+          </span>
+        </div>
+      </div>
+
+      {portfolio.history.length > 1 && (
+        <PriceChart data={portfolio.history} />
+      )}
+      {portfolio.historyNote && (
+        <p className="portfolio-history-note">{portfolio.historyNote}</p>
+      )}
+    </section>
+  );
 }
 
 export default function Dashboard() {
@@ -39,6 +101,7 @@ export default function Dashboard() {
   return (
     <div className="dashboard">
       <h1>Dashboard</h1>
+      <PortfolioSummary />
       <div className="ticker-grid">
         {stocks.map(stock => {
           const tier = tierOf(stock.convictionScore);

@@ -3,6 +3,7 @@ import Sidebar from "./layouts/Sidebar";
 import Dashboard from "./pages/Dashboard";
 import TickerDetail from "./pages/TickerDetail";
 import Glossary from "./pages/Glossary";
+import Settings from "./pages/Settings";
 
 export default function App() {
   return (
@@ -14,6 +15,7 @@ export default function App() {
             <Route path="/" element={<Dashboard />} />
             <Route path="/ticker/:ticker" element={<TickerDetail />} />
             <Route path="/glossary" element={<Glossary />} />
+            <Route path="/settings" element={<Settings />} />
           </Routes>
         </main>
       </div>

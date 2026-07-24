@@ -66,9 +66,6 @@ function PositionRow({ stock, onChange }) {
 export default function Settings() {
   const [stocks, setStocks] = useState(null);
   const [loadError, setLoadError] = useState(null);
-  const [email, setEmail] = useState("");
-  const [emailSaving, setEmailSaving] = useState(false);
-  const [emailSaved, setEmailSaved] = useState(false);
   const [newTicker, setNewTicker] = useState("");
   const [newName, setNewName] = useState("");
   const [addError, setAddError] = useState(null);
@@ -80,7 +77,6 @@ export default function Settings() {
 
   useEffect(() => {
     refetchStocks();
-    getJSON("/api/settings").then(d => setEmail(d.email || "")).catch(() => {});
   }, []);
 
   async function handleAddStock(e) {
@@ -106,18 +102,6 @@ export default function Settings() {
   async function handleRemoveStock(ticker) {
     const updated = await sendJSON(`/api/stocks/${ticker}`, "DELETE");
     setStocks(updated);
-  }
-
-  async function handleSaveEmail(e) {
-    e.preventDefault();
-    setEmailSaving(true);
-    setEmailSaved(false);
-    try {
-      await sendJSON("/api/settings", "POST", { email });
-      setEmailSaved(true);
-    } finally {
-      setEmailSaving(false);
-    }
   }
 
   if (loadError) {
@@ -164,15 +148,6 @@ export default function Settings() {
           <button type="submit" disabled={adding}>{adding ? "Adding…" : "+ Add Stock"}</button>
         </form>
         {addError && <p className="settings-error">{addError}</p>}
-      </section>
-
-      <section className="settings-section">
-        <h2>Notification Email</h2>
-        <form className="settings-email-form" onSubmit={handleSaveEmail}>
-          <input type="email" value={email} onChange={e => { setEmail(e.target.value); setEmailSaved(false); }} required />
-          <button type="submit" disabled={emailSaving}>{emailSaving ? "Saving…" : "Save"}</button>
-        </form>
-        {emailSaved && <p className="settings-saved-note">Saved.</p>}
       </section>
     </div>
   );

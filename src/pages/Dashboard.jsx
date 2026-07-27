@@ -125,6 +125,7 @@ export default function Dashboard() {
                 </div>
                 <div className="signal-count">
   {stock.activeSignals}/{stock.totalSignals} signals active
+  {stock.scoreConfidence ? ` · ${stock.scoreConfidence} confidence` : ""}
 </div>
 
                 <div className="gauge">

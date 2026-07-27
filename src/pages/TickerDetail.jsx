@@ -111,6 +111,40 @@ function PositionSection({ ticker, position, positionAdvice, onChange }) {
   );
 }
 
+const EVENT_CATEGORY_CLASS = {
+  Acquisition: "event-badge-acquisition",
+  "Product Launch": "event-badge-product",
+  Partnership: "event-badge-partnership",
+  "Leadership Change": "event-badge-leadership",
+  Regulatory: "event-badge-regulatory",
+  "Price Target": "event-badge-target",
+  Other: "event-badge-other",
+};
+
+function ScoreBreakdown({ breakdown }) {
+  const [open, setOpen] = useState(false);
+  if (!breakdown || breakdown.length === 0) return null;
+
+  return (
+    <div className="score-breakdown">
+      <button className="validation-toggle" onClick={() => setOpen(!open)}>
+        {open ? "Hide" : "What's driving this score"} ▸
+      </button>
+      {open && (
+        <ul className="score-breakdown-list">
+          {breakdown.map(b => (
+            <li key={b.id}>
+              <span className="score-breakdown-label">{b.label}</span>
+              <span className="score-breakdown-score">{b.score}</span>
+              <span className="score-breakdown-weight">weight {b.weight}</span>
+            </li>
+          ))}
+        </ul>
+      )}
+    </div>
+  );
+}
+
 function InactiveSignalsRow({ signals }) {
   const [open, setOpen] = useState(false);
 
@@ -258,6 +292,12 @@ export default function TickerDetail() {
               {data.signalQuality.badge}
             </p>
           )}
+          {data.scoreConfidence && (
+            <p className="signal-quality-note">
+              {data.scoreConfidence} confidence · {data.scoreCoveragePct}% signal coverage
+            </p>
+          )}
+          <ScoreBreakdown breakdown={data.scoreBreakdown} />
         </div>
       </header>
 
@@ -307,6 +347,33 @@ export default function TickerDetail() {
               </dd>
             </div>
           </dl>
+        </section>
+      )}
+
+      {data.priceMove && data.priceMove.available && (
+        <section className="why-moving">
+          <h2>Why It's Moving</h2>
+          <BulletList items={data.priceMove.bullets} />
+        </section>
+      )}
+
+      {data.companyEvents && data.companyEvents.length > 0 && (
+        <section className="company-events">
+          <h2>Company Events</h2>
+          <div className="company-events-list">
+            {data.companyEvents.map((ev, i) => (
+              <div key={i} className="company-event-item">
+                <span className={`event-badge ${EVENT_CATEGORY_CLASS[ev.category] || "event-badge-other"}`}>
+                  {ev.category}
+                </span>
+                <p className="company-event-headline">{ev.headline}</p>
+                <p className="company-event-meta">
+                  {ev.source || ""}
+                  {ev.date ? ` · ${new Date(ev.date).toLocaleDateString()}` : ""}
+                </p>
+              </div>
+            ))}
+          </div>
         </section>
       )}
 

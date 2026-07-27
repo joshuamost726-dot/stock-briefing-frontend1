@@ -284,6 +284,84 @@ body {
   text-align: right;
 }
 
+.score-breakdown { width: 100%; text-align: right; margin-top: 6px; }
+.score-breakdown-list {
+  list-style: none;
+  margin: 8px 0 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.score-breakdown-list li {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  font-size: 12px;
+}
+.score-breakdown-label { color: var(--text-secondary); }
+.score-breakdown-score { color: var(--text-primary); font-family: var(--font-mono); font-weight: 700; }
+.score-breakdown-weight { color: var(--text-tertiary); }
+
+/* ---------- Why It's Moving ---------- */
+
+.why-moving {
+  border-radius: var(--radius-lg);
+  padding: 20px 24px;
+  margin-bottom: 20px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--blue);
+}
+.why-moving h2 {
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--blue);
+  font-weight: 700;
+  margin: 0 0 10px;
+}
+
+/* ---------- Company Events ---------- */
+
+.company-events { margin-bottom: 20px; }
+.company-events h2 {
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--text-secondary);
+  font-weight: 700;
+  margin: 0 0 14px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid var(--border);
+}
+.company-events-list { display: flex; flex-direction: column; gap: 12px; }
+.company-event-item {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: 16px 20px;
+}
+.company-event-headline { font-size: 14px; color: var(--text-primary); margin: 10px 0 8px; line-height: 1.5; }
+.company-event-meta { font-size: 11px; color: var(--text-tertiary); font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; }
+
+.event-badge {
+  display: inline-block;
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  font-weight: 700;
+  padding: 4px 10px;
+  border-radius: 100px;
+}
+.event-badge-acquisition { background: var(--purple); color: #1A0F26; }
+.event-badge-product { background: var(--blue); color: #0B1730; }
+.event-badge-partnership { background: var(--accent); color: #2A1B05; }
+.event-badge-leadership { background: var(--neutral-soft); color: var(--text-secondary); }
+.event-badge-regulatory { background: var(--negative-soft); color: var(--negative); }
+.event-badge-target { background: var(--positive-soft); color: var(--positive); }
+.event-badge-other { background: var(--neutral-soft); color: var(--text-secondary); }
+
 /* ---------- Price chart ---------- */
 
 .price-chart-section {

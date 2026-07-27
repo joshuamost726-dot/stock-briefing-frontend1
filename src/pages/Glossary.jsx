@@ -40,6 +40,11 @@ const TERMS = [
       "An analyst's projected future price for a stock, typically over a 12-month horizon. Shown alongside the Conviction Score for context, but it reflects one analyst's (or a consensus of analysts') opinion — not a guarantee."
   },
   {
+    term: "Earnings Surprise History",
+    definition:
+      "Tracks whether a company has beaten or missed Wall Street's EPS estimate over its last several quarters, and by how much. A consistent track record of beats (with a positive average surprise) reads as bullish; a track record of misses reads as bearish. A mix of beats and misses — or beats dragged down by one severe miss — reads as neutral rather than being overstated in either direction. This is backward-looking, not a prediction of the next quarter's result."
+  },
+  {
     term: "Signal Quality / Freshness",
     definition:
       "An indicator of how recent and reliable the underlying data for a signal is. Because SEC filings and 13F data aren't updated in real time, some signals are inherently \"staler\" than others — this label tells you how much to weight a given signal based on how current its data actually is."

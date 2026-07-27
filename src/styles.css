@@ -375,9 +375,9 @@ body {
 }
 .market-stats dd { color: var(--text-secondary); font-size: 14px; font-weight: 500; }
 
-/* ---------- Callout sections (plain-english / bottom-line / ai-take / upcoming) ---------- */
+/* ---------- Callout sections (bottom-line / ai-take / upcoming) ---------- */
 
-.plain-english, .bottom-line, .ai-take, .upcoming, .position-section {
+.bottom-line, .ai-take, .upcoming, .position-section {
   border-radius: var(--radius-lg);
   padding: 20px 24px;
   margin-bottom: 16px;
@@ -385,13 +385,12 @@ body {
   border: 1px solid var(--border);
   border-left: 3px solid;
 }
-.plain-english { border-left-color: var(--blue); }
 .bottom-line { border-left-color: var(--positive); }
 .ai-take { border-left-color: var(--purple); }
 .upcoming { border-left-color: var(--accent); }
 .position-section { border-left-color: var(--text-tertiary); }
 
-.plain-english h2, .bottom-line h2, .ai-take h2, .upcoming h2, .position-section h2 {
+.bottom-line h2, .ai-take h2, .upcoming h2, .position-section h2 {
   font-size: 12px;
   text-transform: uppercase;
   letter-spacing: 0.08em;
@@ -402,7 +401,39 @@ body {
 .bottom-line h2 { color: var(--positive); }
 .ai-take h2 { color: var(--purple); }
 .upcoming h2 { color: var(--accent); }
-.plain-english p, .bottom-line p, .ai-take p { margin: 0; line-height: 1.65; color: var(--text-primary); font-size: 15px; }
+.bottom-line p, .ai-take p { margin: 0; line-height: 1.65; color: var(--text-primary); font-size: 15px; }
+
+/* Bullet lists — Claude-generated explanations (signal cards, Bottom Line,
+   Ask Claude) render as these instead of paragraphs so they stay scannable. */
+.bullet-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.bullet-list li {
+  position: relative;
+  padding-left: 16px;
+  line-height: 1.55;
+  color: var(--text-primary);
+  font-size: 15px;
+}
+.bullet-list li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0.6em;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--accent);
+}
+.signal-simple-explanation.bullet-list li {
+  font-size: 14px;
+  color: var(--text-secondary);
+}
 
 .ai-take-disclaimer {
   font-size: 12px;

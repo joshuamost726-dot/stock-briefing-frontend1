@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
 import { getJSON, sendJSON } from "../api";
 import PriceChart from "../components/PriceChart";
+import BulletList from "../components/BulletList";
 
 const VALIDATION_FIELDS = [
   ["timing", "Timing"],
@@ -156,7 +157,7 @@ function SignalCard({ signal }) {
         </div>
       )}
 
-      <p className="signal-simple-explanation">{signal.simpleExplanation}</p>
+      <BulletList items={signal.simpleExplanation} className="signal-simple-explanation" />
 
       <button className="validation-toggle" onClick={() => setOpen(!open)}>
         {open ? "Hide details" : "Show details"}
@@ -367,21 +368,16 @@ export default function TickerDetail() {
         </section>
       )}
 
-      <section className="plain-english">
-        <h2>What this means</h2>
-        <p>{data.plainEnglish}</p>
-      </section>
-
       <section className="bottom-line">
         <h2>Bottom line: {data.bottomLine.verdict}</h2>
-        <p>{data.bottomLine.reasoning}</p>
+        <BulletList items={data.bottomLine.reasoning} />
       </section>
 
       {data.aiTake && (
         <section className="ai-take">
           <h2>Ask Claude</h2>
           <p className="ai-take-disclaimer">AI commentary — not a verified signal, may disagree with the tool's own scoring above.</p>
-          <p>{data.aiTake.text}</p>
+          <BulletList items={data.aiTake.bullets} />
         </section>
       )}
 

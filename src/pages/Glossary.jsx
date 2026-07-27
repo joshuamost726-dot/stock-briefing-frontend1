@@ -43,6 +43,56 @@ const TERMS = [
     term: "Signal Quality / Freshness",
     definition:
       "An indicator of how recent and reliable the underlying data for a signal is. Because SEC filings and 13F data aren't updated in real time, some signals are inherently \"staler\" than others — this label tells you how much to weight a given signal based on how current its data actually is."
+  },
+  {
+    term: "Government Contracts",
+    definition:
+      "Tracks recent federal contract awards to a company, scored against that company's own historical contract size (there's no market-cap-normalized benchmark available for this one). A larger-than-usual award is read as a bullish signal; this data comes from Quiver Quantitative."
+  },
+  {
+    term: "Off-Exchange / Dark Pool Volume",
+    definition:
+      "Tracks the short-side share of a stock's daily trading volume that happens off public exchanges (\"dark pools\"), compared to its own rolling baseline. This tool reports the direction of the shift rather than calling it bullish or bearish outright — a spike can mean different things depending on context."
+  },
+  {
+    term: "Technical Momentum",
+    definition:
+      "A price-chart-based signal using the 50-day vs. 200-day moving average trend (a \"golden cross\" — 50-day crossing above 200-day — is read as bullish; a \"death cross\" is the reverse), plus where the price sits in its 52-week range and whether volume confirms the trend. Unlike every other signal in this tool, this one doesn't depend on any country's disclosure filings, so it's the only signal that applies identically to every tracked stock."
+  },
+  {
+    term: "Reddit / WallStreetBets Attention",
+    definition:
+      "Tracks spikes in how often a ticker is mentioned on Reddit's r/wallstreetbets (via ApeWisdom), as a read on retail trader attention. This only measures mention volume, not whether the sentiment is positive or negative — because of that, it's shown as its own \"Retail Sentiment\" section for context and is deliberately NOT factored into the Conviction Score."
+  },
+  {
+    term: "Korea Ownership Change",
+    definition:
+      "For SK Hynix (SKHY) only. South Korea's equivalent of U.S. insider buying — executives and major shareholders disclosing ownership changes via Open DART, the Korean government's official filing system. Like insider buying, only increases in holdings count toward conviction."
+  },
+  {
+    term: "Korea Major Shareholder",
+    definition:
+      "For SK Hynix (SKHY) only. South Korea's rough equivalent of a U.S. 13D/G filing — a large shareholder's stake crossing the 5% ownership threshold, disclosed via Open DART. Unlike Korea Ownership Change, this one scores both directions, since a fund cutting a 5%+ stake is as meaningful a decision as building one."
+  },
+  {
+    term: "Korea Capital Actions",
+    definition:
+      "For SK Hynix (SKHY) only. South Korea's closest equivalent to U.S. buyback/stock-offering disclosures, via Open DART. Buybacks are read as unambiguously bullish; new share issuances are scored by how much they dilute existing shareholders, with a Claude-generated note on the company's stated reason for the raise."
+  },
+  {
+    term: "Your Position",
+    definition:
+      "An optional per-stock entry for your own cost basis and share count, which unlocks a live gain/loss $ and % on the ticker page. It also feeds into the BUY/HOLD/SELL call: a BUY only survives if you're already in profit when the Conviction Score is 80+, or if you're averaging down at a loss when the score is 85+ (a deliberately higher bar, since catching a falling position is the riskier move)."
+  },
+  {
+    term: "Bottom Line",
+    definition:
+      "A Claude-generated verdict that reads across all of a stock's active signals and explains, in plain English, whether what's showing up looks like a genuine, coordinated read from informed money — or just noise. It's a synthesis of the data already on the page, not a new data source of its own."
+  },
+  {
+    term: "Ask Claude",
+    definition:
+      "A separate, deliberately unrestricted Claude commentary on a stock — given the same signals as the rest of the page but free to form its own take, including disagreeing with the tool's own Bottom Line verdict or Conviction Score. This is labeled as commentary, not a verified signal, and is never factored into the Conviction Score."
   }
 ];
 

@@ -3,6 +3,9 @@ import { useParams, Link } from "react-router-dom";
 import { getJSON, sendJSON } from "../api";
 import PriceChart from "../components/PriceChart";
 import BulletList from "../components/BulletList";
+import ScoreGauge from "../components/ScoreGauge";
+import CategoryIcon from "../components/CategoryIcon";
+import { TickerDetailSkeleton } from "../components/Skeleton";
 
 const VALIDATION_FIELDS = [
   ["timing", "Timing"],
@@ -231,6 +234,7 @@ export default function TickerDetail() {
   const [data, setData] = useState(null);
   const [error, setError] = useState(null);
   const [priceHistory, setPriceHistory] = useState(null);
+  const [scoreHistory, setScoreHistory] = useState(null);
 
   function refetch() {
     return getJSON(`/api/ticker/${ticker}`)
@@ -242,10 +246,14 @@ export default function TickerDetail() {
     setData(null);
     setError(null);
     setPriceHistory(null);
+    setScoreHistory(null);
     refetch();
     getJSON(`/api/ticker/${ticker}/history`)
       .then(setPriceHistory)
       .catch(() => setPriceHistory(null)); // chart is supplementary — a failure here shouldn't block the rest of the page
+    getJSON(`/api/ticker/${ticker}/score-history`)
+      .then(setScoreHistory)
+      .catch(() => setScoreHistory(null)); // same — supplementary, page works without it
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [ticker]);
 
@@ -253,18 +261,20 @@ export default function TickerDetail() {
     return (
       <div className="detail-page">
         <Link to="/" className="back-link">← Dashboard</Link>
-        <p style={{ color: "#F87171" }}>Couldn't load {ticker}. {error}</p>
+        <div className="state-card state-card-error">
+          <svg viewBox="0 0 16 16" className="state-card-icon" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+            <path d="M8 1.5 15 14H1z" />
+            <path d="M8 6v4" />
+            <circle cx="8" cy="12" r="0.6" fill="currentColor" stroke="none" />
+          </svg>
+          <p>Couldn't load {ticker}. {error}</p>
+        </div>
       </div>
     );
   }
 
   if (!data) {
-    return (
-      <div className="detail-page">
-        <Link to="/" className="back-link">← Dashboard</Link>
-        <p style={{ color: "#7C8494" }}>Loading {ticker}…</p>
-      </div>
-    );
+    return <TickerDetailSkeleton />;
   }
 
   return (
@@ -277,8 +287,7 @@ export default function TickerDetail() {
           <p className="company-name">{data.companyName}</p>
         </div>
        <div className="score-block">
-          <span className="score-number">{data.convictionScore}</span>
-          <span className="score-max">/100</span>
+          <ScoreGauge score={data.convictionScore} tier={data.tier} />
           <span className={`tier-badge tier-${data.tier.toLowerCase()}`}>
             {data.tier}
           </span>
@@ -397,6 +406,17 @@ export default function TickerDetail() {
         </section>
       )}
 
+      {scoreHistory && (
+        <section className="price-chart-section">
+          <h2>Conviction Score History</h2>
+          <PriceChart
+            data={(scoreHistory.history || []).map(h => ({ date: h.date, value: h.score }))}
+            valuePrefix=""
+            valueFormatter={(v) => `${Math.round(v)}/100`}
+          />
+        </section>
+      )}
+
       <PositionSection
         ticker={data.ticker}
         position={data.position}
@@ -453,7 +473,7 @@ export default function TickerDetail() {
         const inactive = signals.filter(s => !s.hasData);
         return (
           <section key={category} className="signal-category">
-            <h2 className="signal-category-title">{category}</h2>
+            <h2 className="signal-category-title"><CategoryIcon category={category} />{category}</h2>
             {active.length > 0 && (
               <div className="signals-grid">
                 {active.map(s => <SignalCard key={s.id} signal={s} />)}

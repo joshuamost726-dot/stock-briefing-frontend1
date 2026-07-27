@@ -25,6 +25,7 @@ export default function Sidebar() {
       <div className="sidebar-section">
         <span className="sidebar-section-label">Overview</span>
         <Link to="/" className={linkClass('/')}>Dashboard</Link>
+        <Link to="/compare" className={linkClass('/compare')}>Compare</Link>
       </div>
 
       <div className="sidebar-section">

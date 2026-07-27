@@ -161,6 +161,23 @@ body {
 .tier-moderate, .action-badge-hold { color: #EAB84D; }
 .tier-low, .action-badge-sell { color: var(--negative); }
 
+/* ---------- Skeleton loading states ---------- */
+
+@keyframes skeleton-pulse {
+  0%, 100% { opacity: 0.5; }
+  50% { opacity: 1; }
+}
+.skeleton-block {
+  background: var(--surface-raised);
+  border-radius: var(--radius-sm);
+  animation: skeleton-pulse 1.4s ease-in-out infinite;
+}
+.skeleton-block.skeleton-pill { border-radius: 100px; }
+.skeleton-block.skeleton-circle { border-radius: 50%; }
+.skeleton-block.skeleton-margin-top { margin-top: 10px; }
+.skeleton-block.skeleton-margin-bottom { margin-bottom: 20px; }
+.skeleton-block.skeleton-card { border-radius: var(--radius-lg); }
+
 /* ---------- Dashboard ---------- */
 
 .dashboard h1 {
@@ -178,7 +195,22 @@ body {
   margin-top: 20px;
   box-shadow: var(--shadow-card);
 }
-.portfolio-summary-empty { color: var(--text-secondary); font-size: 14px; }
+.state-card {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  background: var(--surface);
+  border: 1px dashed var(--border-strong);
+  border-radius: var(--radius-lg);
+  padding: 20px 24px;
+  margin-top: 20px;
+}
+.state-card p { color: var(--text-secondary); font-size: 14px; line-height: 1.55; margin: 0; }
+.state-card-icon { width: 22px; height: 22px; flex-shrink: 0; }
+.state-card-empty .state-card-icon { color: var(--text-tertiary); }
+.state-card-error { border-style: solid; border-color: var(--negative-soft); }
+.state-card-error .state-card-icon { color: var(--negative); }
+.state-card-error p { color: var(--text-primary); }
 .portfolio-summary-stats {
   display: flex;
   gap: 48px;
@@ -243,6 +275,13 @@ body {
 .ticker-score-max { color: var(--text-tertiary); font-size: 15px; font-weight: 500; }
 .signal-count { color: var(--text-secondary); font-size: 12px; margin-top: 6px; }
 
+.sparkline {
+  display: block;
+  width: 100%;
+  height: 36px;
+  margin-top: 10px;
+}
+
 .gauge {
   height: 6px;
   background: var(--surface-raised);
@@ -260,6 +299,61 @@ body {
 .action-moderate { color: #EAB84D; }
 .action-low { color: var(--negative); }
 
+/* ---------- Compare ---------- */
+
+.compare-intro { color: var(--text-secondary); font-size: 14px; margin-top: 4px; }
+
+.compare-picker { display: flex; gap: 8px; flex-wrap: wrap; margin: 20px 0 24px; }
+.compare-pill {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  color: var(--text-secondary);
+  font-family: var(--font-mono);
+  font-size: 13px;
+  font-weight: 600;
+  padding: 8px 16px;
+  border-radius: 100px;
+  cursor: pointer;
+  transition: border-color 0.12s ease, color 0.12s ease, background 0.12s ease;
+}
+.compare-pill:hover { border-color: var(--border-strong); color: var(--text-primary); }
+.compare-pill-active { background: var(--accent-soft); border-color: var(--accent); color: var(--accent); }
+
+.compare-table-wrap {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 8px 24px;
+  box-shadow: var(--shadow-card);
+  overflow-x: auto;
+}
+.compare-table { width: 100%; border-collapse: collapse; }
+.compare-table th, .compare-table td {
+  text-align: left;
+  padding: 14px 16px;
+  border-bottom: 1px solid var(--border);
+  white-space: nowrap;
+}
+.compare-table tbody tr:last-child th, .compare-table tbody tr:last-child td { border-bottom: none; }
+.compare-table thead th {
+  font-family: var(--font-mono);
+  font-size: 15px;
+  font-weight: 700;
+}
+.compare-table tbody th {
+  color: var(--text-tertiary);
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  font-weight: 600;
+  white-space: normal;
+}
+.compare-table td { color: var(--text-primary); font-size: 14px; }
+.compare-ticker-link { color: var(--text-primary); text-decoration: none; }
+.compare-ticker-link:hover { color: var(--accent); }
+.compare-score-cell { display: flex; align-items: center; gap: 10px; }
+.compare-table .sparkline { width: 140px; }
+
 /* ---------- Ticker detail header ---------- */
 
 .detail-header {
@@ -272,9 +366,23 @@ body {
 .detail-header h1 { font-size: 40px; font-weight: 800; letter-spacing: -0.03em; font-family: var(--font-mono); }
 .company-name { color: var(--text-secondary); font-size: 14px; margin: 4px 0 0; }
 
-.score-block { display: flex; align-items: center; gap: 8px; }
-.score-number { font-size: 44px; font-weight: 800; color: var(--accent); letter-spacing: -0.02em; font-family: var(--font-mono); }
-.score-max { color: var(--text-tertiary); font-size: 15px; margin-right: 4px; }
+.score-block { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+.score-number { font-size: 26px; font-weight: 800; color: var(--text-primary); letter-spacing: -0.02em; font-family: var(--font-mono); }
+.score-max { color: var(--text-tertiary); font-size: 11px; margin-right: 4px; }
+
+.score-gauge { position: relative; width: 108px; height: 108px; flex-shrink: 0; }
+.score-gauge-svg { width: 100%; height: 100%; }
+.score-gauge-track { stroke: var(--surface-raised); }
+.score-gauge-fill { transition: stroke-dashoffset 0.6s ease; }
+.score-gauge-center {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+.score-gauge-center .score-max { margin-right: 0; }
 
 .signal-quality-note {
   font-size: 12px;
@@ -622,7 +730,11 @@ body {
   margin: 0 0 14px;
   padding-bottom: 10px;
   border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  gap: 8px;
 }
+.category-icon { width: 15px; height: 15px; color: var(--text-tertiary); flex-shrink: 0; }
 
 .signals-grid {
   display: grid;

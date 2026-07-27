@@ -2,6 +2,8 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { getJSON } from "../api";
 import PriceChart from "../components/PriceChart";
+import Sparkline from "../components/Sparkline";
+import { DashboardSkeleton } from "../components/Skeleton";
 
 function tierOf(score) {
   if (score >= 70) return { label: "High", action: "BUY", cls: "high" };
@@ -22,7 +24,12 @@ function PortfolioSummary() {
 
   if (portfolio.holdings.length === 0) {
     return (
-      <section className="portfolio-summary portfolio-summary-empty">
+      <section className="state-card state-card-empty">
+        <svg viewBox="0 0 16 16" className="state-card-icon" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+          <circle cx="8" cy="8" r="6.5" />
+          <path d="M8 5.2v3.3" />
+          <circle cx="8" cy="10.8" r="0.6" fill="currentColor" stroke="none" />
+        </svg>
         <p>No positions tracked yet — add a cost basis on any ticker's page to see your total portfolio value and daily change here.</p>
       </section>
     );
@@ -84,7 +91,14 @@ export default function Dashboard() {
     return (
       <div className="dashboard">
         <h1>Dashboard</h1>
-        <p style={{ color: "#F87171" }}>Couldn't reach the backend. {error}</p>
+        <div className="state-card state-card-error">
+          <svg viewBox="0 0 16 16" className="state-card-icon" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+            <path d="M8 1.5 15 14H1z" />
+            <path d="M8 6v4" />
+            <circle cx="8" cy="12" r="0.6" fill="currentColor" stroke="none" />
+          </svg>
+          <p>Couldn't reach the backend. {error}</p>
+        </div>
       </div>
     );
   }
@@ -93,7 +107,7 @@ export default function Dashboard() {
     return (
       <div className="dashboard">
         <h1>Dashboard</h1>
-        <p style={{ color: "#7C8494" }}>Loading…</p>
+        <DashboardSkeleton />
       </div>
     );
   }
@@ -127,6 +141,8 @@ export default function Dashboard() {
   {stock.activeSignals}/{stock.totalSignals} signals active
   {stock.scoreConfidence ? ` · ${stock.scoreConfidence} confidence` : ""}
 </div>
+
+                <Sparkline values={stock.sparkline} />
 
                 <div className="gauge">
                   <div

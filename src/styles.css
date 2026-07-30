@@ -975,6 +975,10 @@ body {
   background: none !important;
   border: 1px solid var(--border-strong) !important;
   color: var(--text-secondary) !important;
+  font-size: 13px;
+  padding: 8px 16px;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
 }
 .settings-error { color: var(--negative); font-size: 12px; }
 .settings-saved-note { color: var(--positive); font-size: 13px; margin-top: 10px; }
@@ -1001,6 +1005,104 @@ body {
   cursor: pointer;
 }
 .settings-remove-btn:hover { background: var(--negative-soft); }
+
+.import-file-input {
+  display: block;
+  color: var(--text-secondary);
+  font-size: 13px;
+  margin-bottom: 12px;
+}
+.import-result-note { color: var(--positive); font-size: 13px; margin-bottom: 12px; line-height: 1.5; }
+.import-format-note { color: var(--text-tertiary); font-size: 12px; margin-bottom: 10px; }
+.import-warnings {
+  color: var(--negative);
+  font-size: 12px;
+  line-height: 1.5;
+  margin: 0 0 14px;
+  padding-left: 18px;
+}
+.import-review-list { display: flex; flex-direction: column; gap: 12px; margin-bottom: 16px; }
+.import-review-row {
+  display: flex;
+  align-items: flex-end;
+  gap: 16px;
+  padding: 14px 16px;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  flex-wrap: wrap;
+}
+.import-tracked-badge { color: var(--text-tertiary); font-size: 12px; }
+.import-track-checkbox {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--text-secondary);
+  font-size: 12px;
+}
+.import-review-row .settings-btn-secondary {
+  font-size: 12px;
+  padding: 7px 12px;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  margin-left: auto;
+}
+.import-apply-btn {
+  font-size: 13px;
+  font-weight: 700;
+  padding: 9px 18px;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+}
+
+.etrade-steps {
+  color: var(--text-secondary);
+  font-size: 13px;
+  line-height: 1.7;
+  margin: 0 0 14px;
+  padding-left: 20px;
+}
+.etrade-steps code, .settings-section-intro code {
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 1px 6px;
+  font-size: 12px;
+  color: var(--accent);
+}
+.etrade-verify-form { display: flex; gap: 10px; flex-wrap: wrap; margin: 12px 0; }
+.etrade-verify-form input {
+  background: var(--bg);
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius-sm);
+  padding: 9px 12px;
+  color: var(--text-primary);
+  font-size: 14px;
+  min-width: 180px;
+}
+.etrade-verify-form button {
+  background: var(--accent);
+  border: none;
+  color: #14100A;
+  font-size: 13px;
+  font-weight: 700;
+  padding: 9px 18px;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+}
+.etrade-connected-row {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  flex-wrap: wrap;
+  margin: 10px 0;
+}
+.etrade-connected-row .settings-btn-secondary {
+  font-size: 12px;
+  padding: 7px 14px;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+}
 
 .settings-add-stock-form, .settings-email-form { display: flex; gap: 10px; flex-wrap: wrap; }
 .settings-add-stock-form input, .settings-email-form input {

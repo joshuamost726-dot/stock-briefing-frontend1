@@ -18,7 +18,12 @@ automated email — the website is the only interface (email feature removed 202
   value chart if positions are entered.
 - `/ticker/:ticker` (`TickerDetail.jsx`) — full signal breakdown by category, price chart, news with
   Claude context, Upcoming events, Bottom Line verdict, Ask Claude, Your Position.
-- `/settings` (`Settings.jsx`) — bulk position editor, tracked-stock add/remove.
+- `/compare` (`Compare.jsx`) — pick up to 4 tracked tickers, side-by-side score/price/trend.
+- `/buy` (`BuyCheck.jsx`) — type any ticker (tracked or brand new) for a single BUY/HOLD/SELL
+  answer with bullets, reusing `/api/buy-check/:ticker` rather than duplicating TickerDetail's logic.
+- `/settings` (`Settings.jsx`) — bulk position editor, tracked-stock add/remove, and position import
+  (CSV upload for Robinhood/any brokerage, or a live E*TRADE OAuth sync — see backend CLAUDE.md's
+  "Brokerage position import" for how both feed the same review-then-write flow).
 - `/glossary` (`Glossary.jsx`) — plain-English term definitions; keep this in sync when a new signal
   or feature ships (it's fallen behind before — check it covers everything on the ticker page).
 

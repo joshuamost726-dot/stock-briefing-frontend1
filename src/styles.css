@@ -320,6 +320,7 @@ body {
 .compare-pill-active { background: var(--accent-soft); border-color: var(--accent); color: var(--accent); }
 
 .compare-table-wrap {
+  position: relative;
   background: var(--surface);
   border: 1px solid var(--border);
   border-radius: var(--radius-lg);
@@ -1020,4 +1021,111 @@ body {
   padding: 9px 18px;
   border-radius: var(--radius-sm);
   cursor: pointer;
+}
+
+/* ---------- Responsive (mobile/tablet) ---------- */
+
+.mobile-topbar {
+  display: none;
+  align-items: center;
+  gap: 14px;
+  padding: 14px 16px;
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+  position: sticky;
+  top: 0;
+  z-index: 60;
+}
+.mobile-menu-toggle {
+  background: none;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  color: var(--text-primary);
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+.mobile-menu-toggle svg { width: 18px; height: 18px; }
+.mobile-topbar-logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-weight: 700;
+  font-size: 15px;
+  color: var(--text-primary);
+}
+.mobile-topbar-logo .sidebar-logo-mark { width: 26px; height: 26px; font-size: 13px; }
+
+.sidebar-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.55);
+  z-index: 90;
+}
+
+@media (max-width: 860px) {
+  .app-shell { display: block; }
+
+  .mobile-topbar { display: flex; }
+
+  .sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100vh;
+    z-index: 100;
+    transform: translateX(-100%);
+    transition: transform 0.22s ease;
+    box-shadow: 0 0 0 1px var(--border), 12px 0 32px rgba(0, 0, 0, 0.4);
+  }
+  .sidebar-open { transform: translateX(0); }
+
+  .app-main {
+    max-width: 100%;
+    padding: 20px 16px 40px;
+  }
+
+  .detail-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 16px;
+  }
+  .detail-header h1 { font-size: 30px; }
+
+  .score-block { width: 100%; }
+  .signal-quality-note { text-align: left; }
+  .score-breakdown { text-align: left; }
+  .score-breakdown-list li { justify-content: flex-start; }
+
+  .market-data { gap: 24px; padding: 18px 20px; }
+  .market-stats { gap: 20px 28px; }
+
+  .portfolio-summary-stats { gap: 24px; }
+
+  .compare-picker { gap: 6px; }
+
+  .ticker-grid { grid-template-columns: 1fr; }
+
+  /* Hints that the table scrolls horizontally — the columns beyond the
+     first ticker are cut off at this width with no other visual cue. */
+  .compare-table-wrap::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    width: 28px;
+    background: linear-gradient(to right, transparent, var(--surface));
+    pointer-events: none;
+  }
+}
+
+@media (max-width: 480px) {
+  .detail-header h1 { font-size: 26px; }
+  .score-gauge { width: 88px; height: 88px; }
+  .price-value { font-size: 24px; }
 }

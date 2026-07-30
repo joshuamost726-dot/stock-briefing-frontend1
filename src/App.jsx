@@ -5,6 +5,7 @@ import TickerDetail from "./pages/TickerDetail";
 import Glossary from "./pages/Glossary";
 import Settings from "./pages/Settings";
 import Compare from "./pages/Compare";
+import BuyCheck from "./pages/BuyCheck";
 
 export default function App() {
   return (
@@ -15,6 +16,7 @@ export default function App() {
           <Routes>
             <Route path="/" element={<Dashboard />} />
             <Route path="/compare" element={<Compare />} />
+            <Route path="/buy" element={<BuyCheck />} />
             <Route path="/ticker/:ticker" element={<TickerDetail />} />
             <Route path="/glossary" element={<Glossary />} />
             <Route path="/settings" element={<Settings />} />

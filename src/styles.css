@@ -1023,6 +1023,99 @@ body {
   cursor: pointer;
 }
 
+/* ---------- Buy Check ("Should I Buy?") ---------- */
+
+.buy-check-intro {
+  color: var(--text-secondary);
+  font-size: 14px;
+  max-width: 640px;
+  margin: 4px 0 20px;
+}
+
+.buy-check-form { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 14px; }
+.buy-check-form input {
+  background: var(--bg);
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius-sm);
+  padding: 9px 12px;
+  color: var(--text-primary);
+  font-size: 14px;
+  min-width: 200px;
+  text-transform: uppercase;
+}
+.buy-check-form button {
+  background: var(--accent);
+  border: none;
+  color: #14100A;
+  font-size: 13px;
+  font-weight: 700;
+  padding: 9px 18px;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+}
+.buy-check-form button:disabled { opacity: 0.6; cursor: default; }
+
+.buy-check-quickpicks { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 28px; }
+.buy-check-chip {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  color: var(--text-secondary);
+  font-size: 12px;
+  font-weight: 600;
+  padding: 6px 12px;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+}
+.buy-check-chip:hover { border-color: var(--accent); color: var(--accent); }
+
+.buy-check-skeleton { display: flex; flex-direction: column; margin-top: 8px; }
+
+.buy-check-header { align-items: center; }
+.buy-check-price { font-size: 18px; font-weight: 700; margin-top: 6px; }
+.buy-check-price .up { color: var(--positive); }
+.buy-check-price .down { color: var(--negative); }
+
+.buy-check-track-btn {
+  background: var(--accent);
+  border: none;
+  color: #14100A;
+  font-size: 13px;
+  font-weight: 700;
+  padding: 10px 18px;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  white-space: nowrap;
+}
+.buy-check-track-btn:disabled { opacity: 0.6; cursor: default; }
+
+.not-tracked-banner {
+  background: var(--neutral-soft);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: 14px 16px;
+  color: var(--text-secondary);
+  font-size: 13px;
+  line-height: 1.5;
+  margin-bottom: 20px;
+}
+
+.final-answer-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 20px 22px;
+  margin-bottom: 24px;
+}
+.final-answer-top { display: flex; align-items: center; gap: 18px; flex-wrap: wrap; }
+.final-answer-badge { font-size: 14px; padding: 6px 16px; margin-left: 0; }
+.final-answer-verdict { font-size: 17px; font-weight: 700; color: var(--text-primary); }
+.final-answer-top .score-gauge { margin-left: auto; width: 72px; height: 72px; }
+.final-answer-top .score-gauge .score-number { font-size: 18px; }
+.final-answer-reasoning { margin-top: 14px; color: var(--text-secondary); font-size: 14px; line-height: 1.5; }
+
+.buy-check-full-link { margin-top: 24px; }
+.buy-check-full-link a { color: var(--accent); font-size: 13px; font-weight: 600; }
+
 /* ---------- Responsive (mobile/tablet) ---------- */
 
 .mobile-topbar {
@@ -1109,6 +1202,9 @@ body {
   .compare-picker { gap: 6px; }
 
   .ticker-grid { grid-template-columns: 1fr; }
+
+  .final-answer-top .score-gauge { margin-left: 0; }
+  .buy-check-header { flex-direction: column; align-items: flex-start; gap: 14px; }
 
   /* Hints that the table scrolls horizontally — the columns beyond the
      first ticker are cut off at this width with no other visual cue. */

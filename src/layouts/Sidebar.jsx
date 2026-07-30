@@ -48,6 +48,7 @@ export default function Sidebar() {
           <span className="sidebar-section-label">Overview</span>
           <Link to="/" className={linkClass('/')}>Dashboard</Link>
           <Link to="/compare" className={linkClass('/compare')}>Compare</Link>
+          <Link to="/buy" className={linkClass('/buy')}>Should I Buy?</Link>
         </div>
 
         <div className="sidebar-section">

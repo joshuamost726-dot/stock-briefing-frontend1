@@ -36,9 +36,11 @@ export default function BuyCheck() {
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
   const [tracking, setTracking] = useState(false);
+  const [backfillConfigured, setBackfillConfigured] = useState(false);
 
   useEffect(() => {
     getJSON("/api/stocks").then(list => setTrackedTickers(list.map(s => s.ticker))).catch(() => {});
+    getJSON("/api/backfill/status").then(s => setBackfillConfigured(s.configured)).catch(() => {});
   }, []);
 
   function runCheck(rawTicker) {
@@ -147,9 +149,10 @@ export default function BuyCheck() {
           {!data.isTracked && (
             <div className="not-tracked-banner">
               First look only — {data.ticker} isn't tracked yet, so this uses live price, news, analyst
-              rating, and earnings history only ({data.activeSignals} of the app's signals). The other
-              signals (insider buying, congressional trading, technical momentum, etc.) need this stock
-              added to tracking and a day for the scheduled data jobs to catch up.
+              rating, and earnings history only ({data.activeSignals} of the app's signals). Tracking it
+              {backfillConfigured
+                ? " kicks off an immediate fetch for the rest (insider buying, congressional trading, technical momentum, etc.) — most show up within a few minutes. Institutional buying is the one exception, tied to the real quarterly SEC filing cycle, so that stays \"no data\" until the next quarter regardless."
+                : " adds the other signals (insider buying, congressional trading, technical momentum, etc.) via the normal scheduled data jobs, which can take up to a day to catch up."}
             </div>
           )}
 
